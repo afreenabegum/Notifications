@@ -1,15 +1,20 @@
 package com.example.notifications
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -18,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     //step 1
     val channel_ID = "ChannelID"
     val channel_Name = "ChannelName"
+    val notificationID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +35,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        //step 5
+        val notificationManager = NotificationManagerCompat.from(this)
         val buttonNotification = findViewById<Button>(R.id.btnNotification)
+
 
         //calling the channel , which has been created (Step 3)
         createNotificationChannel()
@@ -41,12 +50,27 @@ class MainActivity : AppCompatActivity() {
             .setSmallIcon(R.drawable.baseline_code_24)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
+
+
+        //step 6
+        buttonNotification.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+
+                Toast.makeText(this, "Please Allow Permissions", Toast.LENGTH_SHORT).show()
+            }
+            notificationManager.notify(notificationID, notification)
+        }
     }
 
 
     // a fun for creating channel (Step 2)
     //checking if build version is > Oreo, then we create channel else it exists by default
-    fun createNotificationChannel(){
+    private fun     createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val channel = NotificationChannel(channel_ID, channel_Name, NotificationManager.IMPORTANCE_DEFAULT)
                 .apply {
@@ -63,3 +87,5 @@ class MainActivity : AppCompatActivity() {
         // We have created channel and manager through this fun
     }
 }
+
+// NotificationManagerCompat is an enhanced version of Notification Manager,
