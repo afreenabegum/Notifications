@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             val channel = NotificationChannel(channel_ID, channel_Name, NotificationManager.IMPORTANCE_DEFAULT)
                 .apply {
                     //we have different things, we can set according to our choice
-                    description = "Notification Concept"    // give info
+                    description = "Notification Channel"    // give info
                     lightColor = Color.GREEN
                     enableLights(true)      // need to enable once the color is given
                 }
@@ -88,4 +88,5 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+// Notes
 // NotificationManagerCompat is an enhanced version of Notification Manager,

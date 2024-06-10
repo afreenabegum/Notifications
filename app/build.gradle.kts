@@ -45,5 +45,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.core.ktx.v220)
+//    implementation(libs.androidx.core.ktx.v220)
+    implementation("androidx.core:core-ktx:2.2.0")
 }
